@@ -109,19 +109,36 @@ function SideNavigation(props: Props) {
       <div>{children}</div>
     );
 
-  if (!sidebarOpen) {
-    return null;
-  }
-
   // We may need to render two sidebars if a user is on a small - medium screen
   // In that case, render the simplified sidebar with large links
   // And potentially render the full sidebar if a user expands the menu
+
+  console.log('isOnFilePage && sidebarOpen', isOnFilePage && sidebarOpen);
 
   return (
     <Wrapper>
       {!isOnFilePage && (
         <nav className={classnames('navigation')}>
-          <ul className="navigation-links--relative">
+          <ul className={classnames('navigation-links--relative', { 'navigation-links--huh': !sidebarOpen })}>
+            {TOP_LEVEL_LINKS.map(linkProps => (
+              <li key={linkProps.navigate}>
+                <Button
+                  {...linkProps}
+                  icon={pulseLibrary && linkProps.icon === ICONS.LIBRARY ? ICONS.PURCHASED : linkProps.icon}
+                  className={classnames('navigation-link', {
+                    'navigation-link--pulse': linkProps.icon === ICONS.LIBRARY && pulseLibrary,
+                  })}
+                  activeClass="navigation-link--active"
+                />
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
+      {isOnFilePage && sidebarOpen && (
+        <nav className={classnames('navigation--filepage')}>
+          <ul className="navigation-links--absolute">
             {TOP_LEVEL_LINKS.map(linkProps => (
               <li key={linkProps.navigate}>
                 <Button
