@@ -10,6 +10,7 @@ import StatusBar from 'component/common/status-bar';
 /* @endif */
 import usePersistedState from 'effects/use-persisted-state';
 import { useHistory } from 'react-router';
+import { useIsMediumScreen } from 'effects/use-is-mobile';
 
 export const MAIN_CLASS = 'main';
 type Props = {
@@ -46,6 +47,7 @@ function Page(props: Props) {
     location: { pathname },
   } = useHistory();
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const isMediumScreen = useIsMediumScreen();
 
   React.useEffect(() => {
     // Close the sidebar automatically when navigating to the file page
@@ -55,13 +57,20 @@ function Page(props: Props) {
     }
   }, [pathname, setSidebarOpen]);
 
+  React.useEffect(() => {
+    if (isMediumScreen) {
+      setSidebarOpen(false);
+    }
+  }, [isMediumScreen]);
+
+  console.log('opeN', sidebarOpen);
   return (
     <Fragment>
       {!noHeader && (
         <Header authHeader={authPage} backout={backout} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       )}
       <div className={classnames('main-wrapper__inner', {})}>
-        {!authPage && !noSideNavigation && <SideNavigation sidebarOpen={sidebarOpen} />}
+        {!authPage && !noSideNavigation && <SideNavigation sidebarOpen={sidebarOpen} isMediumScreen={isMediumScreen} />}
         <main
           className={classnames(MAIN_CLASS, className, { 'main--full-width': authPage, 'main--file-page': filePage })}
         >

@@ -67,6 +67,7 @@ function SideNavigation(props: Props) {
     purchaseSuccess,
     doClearPurchasedUriSuccess,
     sidebarOpen,
+    isMediumScreen,
   } = props;
   const {
     location: { pathname },
@@ -113,8 +114,6 @@ function SideNavigation(props: Props) {
   // In that case, render the simplified sidebar with large links
   // And potentially render the full sidebar if a user expands the menu
 
-  console.log('isOnFilePage && sidebarOpen', isOnFilePage && sidebarOpen);
-
   return (
     <Wrapper>
       {!isOnFilePage && (
@@ -136,7 +135,7 @@ function SideNavigation(props: Props) {
         </nav>
       )}
 
-      {isOnFilePage && sidebarOpen && (
+      {(isOnFilePage || isMediumScreen) && sidebarOpen && (
         <nav className={classnames('navigation--filepage')}>
           <ul className="navigation-links--absolute">
             {TOP_LEVEL_LINKS.map(linkProps => (
@@ -152,6 +151,20 @@ function SideNavigation(props: Props) {
               </li>
             ))}
           </ul>
+          {isPersonalized && subscriptions && subscriptions.length > 0 && (
+            <ul className="navigation__secondary navigation-links--small">
+              {subscriptions.map(({ uri, channelName }, index) => (
+                <li key={uri} className="navigation-link__wrapper">
+                  <Button
+                    navigate={uri}
+                    label={channelName}
+                    className="navigation-link"
+                    activeClass="navigation-link--active"
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </nav>
       )}
     </Wrapper>
