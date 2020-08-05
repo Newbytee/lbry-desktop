@@ -109,9 +109,9 @@ function SideNavigation(props: Props) {
       <div>{children}</div>
     );
 
-  //   if (!sidebarOpen) {
-  //     return null;
-  //   }
+  if (!sidebarOpen) {
+    return null;
+  }
 
   // We may need to render two sidebars if a user is on a small - medium screen
   // In that case, render the simplified sidebar with large links
