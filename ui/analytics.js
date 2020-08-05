@@ -17,7 +17,7 @@ const devInternalApis = process.env.LBRY_API_URL;
 export const SHARE_INTERNAL = 'shareInternal';
 const SHARE_THIRD_PARTY = 'shareThirdParty';
 
-const BUFFER_API = 'https://collector-service.dev.lbry.tv';
+const BUFFER_API = 'https://collector-service.api.lbry.tv/v1/events/video';
 
 // @if TARGET='app'
 if (isProduction) {
